@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Förbır Link Collector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-900 flex h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-800 text-white flex flex-col">
+        <div class="p-4 text-2xl font-bold border-b border-gray-700">
+            📌 Link Collector
+        </div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="/" class="block px-3 py-2 rounded hover:bg-gray-700">📋 Linkler</a>
+            <form action="/reset" method="POST">
+                <button class="w-full text-left px-3 py-2 rounded hover:bg-red-600">🗑️ Tümünü Sıfırla</button>
+            </form>
+            <form action="/test-twitter" method="POST">
+                <button class="w-full text-left px-3 py-2 rounded hover:bg-blue-600">🐦 Twitter Test</button>
+            </form>
+        </nav>
+        <div class="p-4 border-t border-gray-700 text-sm text-gray-400">
+            by Emirhan & Förbır
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+        <!-- Navbar -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">📋 Link Listesi</h1>
+            <form id="ekleForm" action="/add" method="POST" class="flex space-x-2">
+                <input type="text" name="url" placeholder="Link ekle..." class="px-3 py-2 border rounded w-64">
+                <button id="ekleBtn" type="button" class="bg-green-600 text-white px-4 py-2 rounded">
+                    Ekle
+                </button>
+            </form>
+
+            <script>
+                const btn = document.getElementById("ekleBtn");
+                const form = document.getElementById("ekleForm");
+
+                btn.addEventListener("click", function () {
+                    btn.disabled = true;
+                    btn.classList.add("opacity-50", "cursor-not-allowed");
+                    btn.innerText = "Bekle (10sn)";
+
+                    let remaining = 10;
+                    const countdown = setInterval(() => {
+                        remaining--;
+                        btn.innerText = `Bekle (${remaining}sn)`;
+                        if (remaining <= 0) clearInterval(countdown);
+                    }, 1000);
+
+                    setTimeout(() => {
+                        form.submit(); // 10 sn sonra otomatik form gönder
+                    }, 10 * 1000);
+                });
+            </script>
+            </form>
+        </header>
+
+        <!-- Error Alert -->
+        <main class="flex-1 overflow-y-auto p-6">
+            <% if (typeof error !=="undefined" ) { %>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                    <strong class="font-bold">⚠️ Hata:</strong>
+                    <span class="block sm:inline">
+                        <%= error %>
+                    </span>
+                </div>
+                <% } %>
+
+                    <% if (links && links.length> 0) { %>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <% links.forEach(link=> { %>
+                                <div class="bg-white shadow rounded-lg p-4 flex flex-col justify-between">
+                                    <div>
+                                        <a href="<%= link.url %>" target="_blank"
+                                            class="text-blue-600 font-semibold break-words">
+                                            <%= link.url %>
+                                        </a>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            👤 <%= link.author %> <br>
+                                                📡 <%= link.channel %> | 🏷️ <%= link.source %>
+                                        </p>
+                                    </div>
+                                    <div class="text-xs text-gray-400 mt-2">
+                                        ⏰ <%= new Date(link.date).toLocaleString("tr-TR") %>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } else { %>
+                            <p class="text-gray-500">Henüz hiç link eklenmedi.</p>
+                            <% } %>
+        </main>
+    </div>
+
+</body>
+
+</html>
