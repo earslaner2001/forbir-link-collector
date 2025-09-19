@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in-up {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm fade-in-up">
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">📝 Kayıt Ol</h1>
+    <form method="POST" action="/register" class="flex flex-col gap-4">
+      <input type="text" name="username" placeholder="Kullanıcı Adı"
+        class="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-green-500 transition-all duration-200"
+        required>
+      <input type="password" name="password" placeholder="Şifre"
+        class="border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-green-500 transition-all duration-200"
+        required>
+
+      <p class="text-sm text-gray-500">⚠️ Tüm yeni kayıtlar varsayılan olarak <b>user</b> rolüyle açılır.
+        Yönetici/Streamer/Moderator hesaplarını veritabanına manuel eklemeniz gerekir.</p>
+
+      <button type="submit"
+        class="bg-green-600 text-white font-semibold p-3 rounded-lg shadow-lg hover:bg-green-700 transition-all duration-200 transform hover:scale-105">
+        Kayıt Ol
+      </button>
+    </form>
+  </div>
+</body>
+
+</html>
