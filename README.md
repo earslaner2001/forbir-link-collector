@@ -54,7 +54,7 @@ node server.js
 
 ## 📜 Changelog
 
-Tüm değişiklikler için [CHANGELOG.md](./CHANGELOG.md) dosyasına bakınız.
+Tüm değişiklikler için [CHANGELOG.md](https://github.com/earslaner2001/forbir-link-collector/blob/main/CHANGELOG.md) dosyasına bakınız.
 
 ## 📄 Lisans
 
