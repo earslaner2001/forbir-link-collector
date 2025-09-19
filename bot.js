@@ -48,26 +48,6 @@ client.once('ready', () => {
     });
 });
 
-// Link kaydetme
-client.on('messageCreate', message => {
-    if (message.author.bot) return;
-    if (message.channel.id !== process.env.CHANNEL_ID) return;
-
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const urls = message.content.match(urlRegex);
-    if (urls) {
-        urls.forEach(url => {
-            db.run(`
-                INSERT INTO links (url, author, channel, date, source)
-                VALUES (?, ?, ?, datetime('now'), 'discord')
-            `, [url, message.author.tag, message.channel.name]);
-
-            console.log(`💾 Link kaydedildi: ${url}`);
-            addLog(`💾 Link kaydedildi: ${url}`);
-        });
-    }
-});
-
 // Slash komutları
 client.on('interactionCreate', async interaction => {
     if (!interaction.isChatInputCommand()) return;
